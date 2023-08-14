@@ -111,7 +111,7 @@ class mainView: UIViewController, UITableViewDelegate,UITableViewDataSource {
                 
                 let locationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                 
-                let region = MKCoordinateRegion(center: locationCoordinate, span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5))
+                let region = MKCoordinateRegion(center: locationCoordinate, span: MKCoordinateSpan(latitudeDelta: 3, longitudeDelta: 3))
                 self.mapView.setRegion(region, animated: true)
                 mapView.removeAnnotations(mapView.annotations)
                 let annotation = MKPointAnnotation()
