@@ -37,7 +37,7 @@ class mapsPresenter {
                 switch response.result {
                 case .success(let value):
                     print("Response: \(value)")
-                    self.parseSOAPResponse(response: value )
+                    self.parsePais(response: value )
                 case .failure(let error):
                     print("Error: \(error)")
                 }
@@ -45,8 +45,7 @@ class mapsPresenter {
         }
     }
     
-    
-    func parseSOAPResponse(response: String) {
+    func parsePais(response: String) {
         let xml = XMLHash.parse(response)
         
         let namespaces = ["soap": "http://schemas.xmlsoap.org/soap/envelope/",
@@ -64,6 +63,7 @@ class mapsPresenter {
                 let paisDict = ["idPais": idPais, "nombrePais": nombrePais]
                 paisesArray.append(paisDict)
                 self.arrayPaises.append(Pais(idPais: idPais, nombrePais: nombrePais))
+                
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newPaisNotif"), object: nil)
                 
             }
@@ -129,7 +129,14 @@ class mapsPresenter {
         print("Estados: \(estadosArray)")
     }
     
-    
+    func obtenerPaisPorIdEstado(_ idEstado: String) -> Pais? {
+        
+        if let estado = arrayEstados.first(where: { $0.idEstado == idEstado }) {
+            return arrayPaises.first(where: { $0.idPais == estado.idPais })
+        }
+        
+        return nil
+    }
     
 }
 

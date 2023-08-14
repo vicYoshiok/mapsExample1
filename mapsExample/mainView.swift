@@ -8,7 +8,7 @@
 import UIKit
 import Foundation
 import MapKit
-class mainView: UIViewController, UITableViewDelegate,UITableViewDataSource {
+class mainView: UIViewController, UITableViewDelegate,UITableViewDataSource, MKMapViewDelegate {
     
     @IBOutlet weak var paisLabel: UILabel!
     @IBOutlet weak var ciudadLabel: UILabel!
@@ -27,6 +27,7 @@ class mainView: UIViewController, UITableViewDelegate,UITableViewDataSource {
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshEstados), name: NSNotification.Name(rawValue: "newEstadoNotif"), object: nil)
         
         self.mapsE.paises()
+        mapView.delegate = self
         
     }
     
@@ -70,10 +71,28 @@ class mainView: UIViewController, UITableViewDelegate,UITableViewDataSource {
             return cell
             
         }else{
+            
             let cell = tableViewEstados.dequeueReusableCell(withIdentifier: "estadoCell") as! estadosCell
             let arrayE = mapsE.arrayEstados[indexPath.row]
             cell.idEstadoLabel.text = arrayE.idEstado
             cell.nombreEstadoLabel.text = arrayE.estadoNombre
+            
+            let coordinatesComponents = arrayE.coordenadas.split(separator: ",")
+            if coordinatesComponents.count == 2,
+               let latitude = Double(coordinatesComponents[0].trimmingCharacters(in: .whitespaces)),
+               let longitude = Double(coordinatesComponents[1].trimmingCharacters(in: .whitespaces)) {
+                let locationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                let region = MKCoordinateRegion(center: locationCoordinate, span: MKCoordinateSpan(latitudeDelta: 10, longitudeDelta: 1))
+                
+                self.mapView.setRegion(region, animated: true)
+
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = locationCoordinate
+                annotation.title = arrayE.estadoNombre
+                self.mapView.addAnnotation(annotation)
+          
+                
+            }
             return cell
             
         }
@@ -100,7 +119,7 @@ class mainView: UIViewController, UITableViewDelegate,UITableViewDataSource {
             
         }else{
             
-            let arrayE = self.mapsE.arrayEstados[indexPath.row]
+          let arrayE = self.mapsE.arrayEstados[indexPath.row]
             self.ciudadLabel.text = arrayE.estadoNombre
             self.datosCiudadLabel.text = arrayE.coordenadas
             
@@ -108,23 +127,50 @@ class mainView: UIViewController, UITableViewDelegate,UITableViewDataSource {
             if coordinatesComponents.count == 2,
                let latitude = Double(coordinatesComponents[0].trimmingCharacters(in: .whitespaces)),
                let longitude = Double(coordinatesComponents[1].trimmingCharacters(in: .whitespaces)) {
-                
                 let locationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                let region = MKCoordinateRegion(center: locationCoordinate, span: MKCoordinateSpan(latitudeDelta: 10, longitudeDelta: 10))
                 
-                let region = MKCoordinateRegion(center: locationCoordinate, span: MKCoordinateSpan(latitudeDelta: 3, longitudeDelta: 3))
                 self.mapView.setRegion(region, animated: true)
-                mapView.removeAnnotations(mapView.annotations)
+
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = locationCoordinate
+                annotation.title = arrayE.estadoNombre
                 self.mapView.addAnnotation(annotation)
                 
-                //
-                
             }
-            
+
         }
         
         
     }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let annotation = view.annotation as? MKPointAnnotation {
+            let lat = annotation.coordinate.latitude
+            let longi = annotation.coordinate.longitude
+            
+            // Actualiza el label con las coordenadas
+            let stringC = String(lat) + ", " + String(longi)
+            
+            if  let  estado = self.mapsE.arrayEstados.first(where: {$0.coordenadas == stringC} ){
+                
+                if let pais = self.mapsE.obtenerPaisPorIdEstado(estado.idPais) {
+                    self.paisLabel.text = pais.nombrePais
+                   
+                } else {
+                   print("sin resultados")
+                }
+
+                self.ciudadLabel.text = estado.estadoNombre
+                self.datosCiudadLabel.text = estado.coordenadas
+                
+            }
+            
+        }
+    
+        
+    }
+    
+    
     
 }
