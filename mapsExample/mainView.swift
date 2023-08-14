@@ -50,6 +50,12 @@ class mainView: UIViewController, UITableViewDelegate,UITableViewDataSource, MKM
         
     }
     
+    
+    @IBAction func crash(_ sender: Any) {
+        let numbers = [0]
+        let _ = numbers[1]
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.tableViewPaisesCiudades{
             return mapsE.arrayPaises.count
@@ -64,7 +70,7 @@ class mainView: UIViewController, UITableViewDelegate,UITableViewDataSource, MKM
         if tableView == self.tableViewPaisesCiudades{
             
             let cell = tableViewPaisesCiudades.dequeueReusableCell(withIdentifier: "paisCell") as! paisCell
-            let arrayP = mapsE.arrayPaises[indexPath.row]
+            let arrayP = mapsE.arrayPaises[indexPath.row ]
             cell.odPais.text = arrayP.idPais
             cell.nombrePais.text = arrayP.nombrePais
             

@@ -8,6 +8,10 @@ target 'mapsExample' do
   # Pods for mapsExample
   pod 'Alamofire'
   pod 'SWXMLHash'
+  pod 'Firebase'
+  pod 'FirebaseAnalytics'
+  pod 'FirebaseCrashlytics'
+
   target 'mapsExampleTests' do
     inherit! :search_paths
     # Pods for testing

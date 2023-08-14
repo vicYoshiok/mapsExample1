@@ -20,6 +20,7 @@
 		FA0543962A882E6900762548 /* mapsExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0543952A882E6900762548 /* mapsExampleUITests.swift */; };
 		FA0543982A882E6900762548 /* mapsExampleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0543972A882E6900762548 /* mapsExampleUITestsLaunchTests.swift */; };
 		FA0543A52A8833B500762548 /* mapsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0543A42A8833B500762548 /* mapsPresenter.swift */; };
+		FA32A6CD2A89EC7200F7B659 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA32A6CC2A89EC7200F7B659 /* GoogleService-Info.plist */; };
 		FA7467A32A884D0F001B4B3E /* modelPaises.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7467A22A884D0F001B4B3E /* modelPaises.swift */; };
 		FA7467A52A886714001B4B3E /* paisCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7467A42A886714001B4B3E /* paisCell.swift */; };
 		FA7467A72A88A8EB001B4B3E /* estadosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7467A62A88A8EB001B4B3E /* estadosCell.swift */; };
@@ -66,6 +67,7 @@
 		FA0543952A882E6900762548 /* mapsExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapsExampleUITests.swift; sourceTree = "<group>"; };
 		FA0543972A882E6900762548 /* mapsExampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapsExampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FA0543A42A8833B500762548 /* mapsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapsPresenter.swift; sourceTree = "<group>"; };
+		FA32A6CC2A89EC7200F7B659 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FA7467A22A884D0F001B4B3E /* modelPaises.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modelPaises.swift; sourceTree = "<group>"; };
 		FA7467A42A886714001B4B3E /* paisCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = paisCell.swift; sourceTree = "<group>"; };
 		FA7467A62A88A8EB001B4B3E /* estadosCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = estadosCell.swift; sourceTree = "<group>"; };
@@ -153,11 +155,12 @@
 				FA0543A42A8833B500762548 /* mapsPresenter.swift */,
 				FA7467A22A884D0F001B4B3E /* modelPaises.swift */,
 				FA7467A42A886714001B4B3E /* paisCell.swift */,
+				FA7467A62A88A8EB001B4B3E /* estadosCell.swift */,
 				FA05437A2A882E6700762548 /* Main.storyboard */,
 				FA05437D2A882E6900762548 /* Assets.xcassets */,
 				FA05437F2A882E6900762548 /* LaunchScreen.storyboard */,
 				FA0543822A882E6900762548 /* Info.plist */,
-				FA7467A62A88A8EB001B4B3E /* estadosCell.swift */,
+				FA32A6CC2A89EC7200F7B659 /* GoogleService-Info.plist */,
 			);
 			path = mapsExample;
 			sourceTree = "<group>";
@@ -191,6 +194,7 @@
 				FA05436E2A882E6600762548 /* Frameworks */,
 				FA05436F2A882E6600762548 /* Resources */,
 				4B9CEFA50F4B3DF08BC3A459 /* [CP] Embed Pods Frameworks */,
+				FA32A6CE2A89EEC600F7B659 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -289,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA0543812A882E6900762548 /* LaunchScreen.storyboard in Resources */,
+				FA32A6CD2A89EC7200F7B659 /* GoogleService-Info.plist in Resources */,
 				FA05437E2A882E6900762548 /* Assets.xcassets in Resources */,
 				FA05437C2A882E6700762548 /* Main.storyboard in Resources */,
 			);
@@ -410,6 +415,25 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		FA32A6CE2A89EEC600F7B659 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# script para subir dSYM a firebase\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -602,6 +626,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = KG85A5M2QJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = mapsExample/Info.plist;
